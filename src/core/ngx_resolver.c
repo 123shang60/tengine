@@ -4143,15 +4143,17 @@ done:
             n = *src++;
 
         } else {
+            // http://nginx.org/download/patch.2021.resolver.txt
+            // CVE-2021-23017 超危漏洞修复
+            if (dst != name->data) {
+                *dst++ = '.';
+            }
+
             ngx_strlow(dst, src, n);
             dst += n;
             src += n;
 
             n = *src++;
-
-            if (n != 0) {
-                *dst++ = '.';
-            }
         }
 
         if (n == 0) {
